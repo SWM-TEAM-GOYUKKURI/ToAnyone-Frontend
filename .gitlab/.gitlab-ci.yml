@@ -1,11 +1,8 @@
 default:
   image: node:16-bullseye-slim
-  before_script:
-    - yarn config set cache-folder .yarn
-    - yarn install --frozen-lockfile
 
 include:
-  - template: Code-Quality.gitlab-ci.yml
+  - remote: "https://gitlab.com/gitlab-org/gitlab/-/raw/master/lib/gitlab/ci/templates/Jobs/Code-Quality.gitlab-ci.yml"
 
 workflow:
   rules:
@@ -22,6 +19,9 @@ stages:
 
 Build:
   stage: build
+  before_script:
+    - yarn config set cache-folder .yarn
+    - yarn install --frozen-lockfile
   script:
     - yarn build
   artifacts:
@@ -31,5 +31,8 @@ Build:
 
 Test:
   stage: test
+  before_script:
+    - yarn config set cache-folder .yarn
+    - yarn install --frozen-lockfile
   script:
     - yarn test
