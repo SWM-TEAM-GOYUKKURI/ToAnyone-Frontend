@@ -1,0 +1,32 @@
+default:
+  image: node:16-bullseye-slim
+  before_script:
+    - yarn config set cache-folder .yarn
+    - yarn install --frozen-lockfile
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+
+cache:
+  paths:
+    - node_modules/
+    - .yarn
+
+stages:
+  - test
+  - build
+
+Build:
+  stage: build
+  script:
+    - yarn build
+  artifacts:
+    expire_in: 3 days
+    expose_as: "build"
+    paths: ["dist"]
+
+Test:
+  stage: test
+  script:
+    - yarn test
