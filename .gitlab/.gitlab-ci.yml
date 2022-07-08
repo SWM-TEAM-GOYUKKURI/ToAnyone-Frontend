@@ -4,6 +4,9 @@ default:
     - yarn config set cache-folder .yarn
     - yarn install --frozen-lockfile
 
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
 workflow:
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
